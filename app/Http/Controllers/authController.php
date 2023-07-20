@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Jobs\SendEmail;
 use App\Models\User;
 use App\Models\VerifyEmail;
 use App\Service\admin\UserService;
@@ -10,7 +11,6 @@ use Illuminate\Support\Facades\Auth;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 
 class authController extends Controller
@@ -74,7 +74,7 @@ class authController extends Controller
             if ($user->is_verified == 1) {
                 if ($user->role) {
                     if ($user->role->name == 'user') {
-                        return redirect('/welcome');
+                        return redirect('/');
                     } else {
                         return redirect('/admin/dashboard');
                     }
@@ -113,13 +113,12 @@ class authController extends Controller
                   'setup_time' => $time,
               ]
         );
-        $data['email'] = $user->email;
-        $data['title'] = "Mail xác nhận email";
-        $data['body'] = 'Mã OPT của bạn là: ' .$otp . '<br><br>Cảm ơn vì đã chọn chúng tôi';
+        $data = [
+            'title' => 'Mã OTP của NEWS',
+            'body' => 'Mã OTP của bạn là:' . $otp,
+        ];
+        SendEmail::dispatch($data, $user)->delay(now()->addSecond(20));
 
-        Mail::send([],$data,function($message) use ($data){
-            $message->to($data['email'])->subject($data['title'])->setBody($data['body'], 'text/html');
-        });
     }
 
     public function verifiedOTP(Request $request) {
@@ -136,7 +135,7 @@ class authController extends Controller
                     $user->update([
                         'password' => Hash::make(session('password')),
                     ]);
-                    \session()->forget('password');
+                    session()->forget('password');
                 } else {
                     $user->update([
                         'is_verified' => 1,

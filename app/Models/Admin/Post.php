@@ -2,6 +2,7 @@
 
 namespace App\Models\Admin;
 
+use App\Models\Comment;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -30,8 +31,9 @@ class Post extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function images(): \Illuminate\Database\Eloquent\Relations\HasMany
+
+    public function comments(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->hasMany(Image::class);
+        return $this->hasMany(Comment::class);
     }
 }
