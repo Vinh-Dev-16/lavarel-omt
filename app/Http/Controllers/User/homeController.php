@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Models\Admin\Category;
 use App\Models\Admin\Post;
 use Illuminate\Http\Request;
 
@@ -13,8 +14,15 @@ class homeController extends Controller
         return view('user.design.home');
     }
 
-    public function detail($id) {
+    public function detail($id): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
+    {
         $post = Post::find($id);
         return  view('user.design.detail', compact('post'));
+    }
+
+    public function category($id): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
+    {
+        $category = Category::find($id);
+        return view('user.design.category', compact('category'));
     }
 }

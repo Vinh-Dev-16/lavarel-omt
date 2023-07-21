@@ -16,8 +16,8 @@ class Category extends Model
         'parent_id' => 'parent_id',
     ];
 
-    public function posts(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function posts(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->hasMany(Post::class);
+        return $this->belongsToMany(Post::class, 'post_category' ,'category_id','post_id')->withTimestamps();
     }
 }

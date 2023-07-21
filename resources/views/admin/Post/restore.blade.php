@@ -27,10 +27,7 @@
                     <tr>
                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ID</th>
                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ">Ảnh đại diện</th>
-                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ">Title</th>
-                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Content
-                        </th>
-
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder ps-2 opacity-7 ">Title</th>
                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Category
                         </th>
                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder  opacity-7">Thao tác</th>
@@ -49,10 +46,9 @@
                                 <p class="text-xs mb-0" >{{Illuminate\Support\Str::of($post->title)->words(6)}}</p>
                             </td>
                             <td>
-                                <p class="text-xs mb-0" >{!! Illuminate\Support\Str::of($post->content)->words(16) !!} </p>
-                            </td>
-                            <td>
-                                <p class="text-xs mb-0">{{$post->category->name}}</p>
+                            @foreach($post->categories as $category)
+                                <p class="text-xs mb-0">{{$category->name}} , </p>
+                            @endforeach
                             </td>
                             <td class="align-middle text-center ms-auto text-end">
                                 @can('delete', $post)

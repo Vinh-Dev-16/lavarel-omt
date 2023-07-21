@@ -14,10 +14,10 @@ class commentController extends Controller
         if ($request->isMethod('post')) {
             $data = $request->all();
             Comment::create($data);
-            $post = Post::find($request->post_id);
+            $postID = Post::find($request->post_id)->id;
             $name = User::find($request->user_id)->name;
             $userID = User::find($request->user_id)->id;
-            $comments = $post->comments;
+            $comments = Comment::where('post_id',$postID)->limit(6)->latest()->get();
 
             return response()->json([
                 'result' => $comments,
@@ -25,5 +25,24 @@ class commentController extends Controller
                 'userID' => $userID,
             ]);
         }
+    }
+
+
+    public function delete($id): \Illuminate\Http\JsonResponse
+    {
+        $comment = Comment::find($id);
+        $post = Post::where('id', $comment->post_id)->first();
+        $comment->delete();
+        $postID = $post->id;
+        $comments = Comment::where('post_id',$postID)->limit(6)->latest()->get();
+        $userID = auth()->user()->id;
+        $name = auth()->user()->name;
+
+        return response()->json([
+            'result' => $comments,
+            'userID' => $userID,
+            'name' => $name,
+            'status' => 'success',
+        ]);
     }
 }

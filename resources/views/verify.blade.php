@@ -153,10 +153,14 @@
             body: JSON.stringify(data),
         }).then(response =>response.json())
             .then(data => {
+                if (data.success == true) {
                 if (data.role == 'user') {
                     window.location.href = BASE_URL + '/';
                 } else {
                     window.location.href = BASE_URL + '/' + 'admin/dashboard';
+                }
+                } else {
+                    window.location.href = BASE_URL + '/login' ;
                 }
 
             }).catch(error => {

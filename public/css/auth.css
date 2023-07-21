@@ -19,7 +19,7 @@ body {
     position: fixed;
     top: 1.875em;
     right: 1.25em;
-      z-index: 1000;
+      z-index: 1000 !important;
   }
   .notification :where(.toasts, .column) {
     display: flex;

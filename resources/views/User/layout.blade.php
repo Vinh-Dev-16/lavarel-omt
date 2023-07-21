@@ -4,7 +4,8 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <!--    CDN boostraps-->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.4.0/fonts/remixicon.css" rel="stylesheet">
 
     <link rel="stylesheet" href="{{asset('css/user.css')}}">
@@ -58,7 +59,7 @@
                                     <a href="{{url('/')}}" style="color: #4cc170;" class="mt-3 ms-1 text-uppercase fw-bold text-decoration-none fs-3 text-bs-indigo">NEWS</a>
                                 </div>
                             </div>
-                            <div class="col-md-6 d-flex justify-content-left align-items-center">
+                            <div class="col-md-4 d-flex justify-content-start align-items-center">
                                 <div class="trending-icon">
                                     <svg width="20" height="13" viewBox="0 0 20 13" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <g clip-path="url(#clip0_2_588)">
@@ -72,19 +73,66 @@
                                     </svg>
                                 </div>
                                 <div class="button-middle-header">
-                                    <ul>
+                                    <ul class="btn-list-middle-header d-md-flex justify-content-left align-items-center gap-3 mt-4">
                                         <li>
-                                            <button type="button" class="btn">Tech Kiệm</button>
+                                            <button class="btn-middle-header" type="button" class="btn">Tech Kiệm</button>
                                         </li>
                                         <li>
-                                            <button type="button" class="btn">Mua Bán</button>
+                                            <button class="btn-middle-header" type="button" class="btn">Mua Bán</button>
                                         </li>
                                     </ul>
                                 </div>
                             </div>
+                            <div class="col-md-6 z d-sm-flex justify-content-end align-items-center">
+                                    @if(\Illuminate\Support\Facades\Auth::check())
+                                        <div class="dropdown user-login-dropdown">
+                                            <a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                {{\Illuminate\Support\Facades\Auth::user()->name}}
+                                            </a>
+                                            <ul class="dropdown-menu menu-item-dropdown">
+                                                @if (!(\Illuminate\Support\Facades\Auth::user()->role_id == 2))
+                                                <li><a class="dropdown-item" href="{{url('admin/dashboard')}}">Trang quản trị</a></li>
+                                                    <li><hr class="dropdown-divider" /></li>
+                                                @endif()
+                                                <form role="form" action="{{ url('logout') }}" method="POST">
+                                                    @csrf
+                                                    <button type="submit"
+                                                            style="outline: none; border: none; background-color: transparent;display: flex;">
+                                                        <div
+                                                            class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                                                            <i class="ri-login-box-line text-warning  text-sm opacity-10"></i>
+                                                        </div>
+                                                        <span class="nav-link-text ms-1" style="font-size:14px; margin-top:4px;">Log Out</span>
+                                                    </button>
+                                                </form>
+                                            </ul>
+                                        </div>
+                                    @else
+                                    <div class="login-header">
+                                        <a href="{{ url('/login')}}">Đăng nhập</a>
+                                    </div>
+                                    @endif
+                                        <div class="search-bar-header position-relative top-4">
+                                                <svg id="icon-search-bar" class="position-absolute top-5 end-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="28" height="28"><path d="M18.031 16.6168L22.3137 20.8995L20.8995 22.3137L16.6168 18.031C15.0769 19.263 13.124 20 11 20C6.032 20 2 15.968 2 11C2 6.032 6.032 2 11 2C15.968 2 20 6.032 20 11C20 13.124 19.263 15.0769 18.031 16.6168ZM16.0247 15.8748C17.2475 14.6146 18 12.8956 18 11C18 7.1325 14.8675 4 11 4C7.1325 4 4 7.1325 4 11C4 14.8675 7.1325 18 11 18C12.8956 18 14.6146 17.2475 15.8748 16.0247L16.0247 15.8748Z" fill="rgba(255,255,255,1)"></path></svg>
+
+                                                <input id="search-text-bar" class="top-5 end-8 position-absolute" type="search" placeholder="Tìm kiếm ở đây...">
+                                        </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="bottom-header">
+                    <div class="bottom-header mt-11">
+                        <div class="row">
+                            <div class="col-md-10">
+                                <ul class="list-category-header d-sm-flex justify-content-start align-items-center gap-7">
+                                    @foreach(\App\Models\Admin\Category::limit(8)->get() as $category)
+                                        <li>
+                                            <a href="{{url('category/'. $category->id)}}">{{$category->name}}</a>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                            <div class="col-md-2"></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -94,7 +142,7 @@
 
     </nav>
 
-    <main>
+    <main class="my-20">
         @section('content')
         @show
     </main>
@@ -164,15 +212,12 @@
         </div>
     </footer>
 
-
-    <!--    CDN boostrap-->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
     <script>
-        // let searchNavbar = document.querySelector('#search-navbar');
-        // let inputSearchNavbar = document.querySelector('#input-search-navbar');
-        // searchNavbar.addEventListener('click', () =>{
-        //     inputSearchNavbar.classList.toggle('active');
-        // });
+        let searchNavbar = document.querySelector('#icon-search-bar');
+        let inputSearchNavbar = document.querySelector('#search-text-bar');
+        searchNavbar.addEventListener('click', () =>{
+            inputSearchNavbar.classList.toggle('active');
+        });
 
 
 
@@ -194,26 +239,26 @@
             toast.className = `toasts error`;
             toast.innerHTML = `
                 <div class="column">
-                   <i class="fa-solid fa-bug"></i>
+                    <i class="ri-bug-line"></i>
                     <span>${toastMessage}</span>
                 </div>
-             <i class="fa-solid fa-x"></i>
+           <i class="ri-close-line"></i>
                 `
             notifications.appendChild(toast);
             setTimeout(() => removeToast(toast), 3000)
         };
 
-        function createSuccesToast(message) {
+        function createSuccessToast(message) {
             const toast = document.createElement('li');
             toast.className = `toasts success`;
             toast.innerHTML = `
                         <div class="column">
-                                <i class="fa-solid fa-check"></i>
+                              <i class="ri-check-line"></i>
                             <span>${message}</span>
                         </div>
-                      <i class="fa-solid fa-x"></i>
+                      <i class="ri-close-line"></i>
                         `
-            notifications.appendChild(noti);
+            notifications.appendChild(toast);
             setTimeout(() => removeToast(toast), 3000)
         };
     </script>

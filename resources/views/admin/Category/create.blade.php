@@ -17,7 +17,7 @@
         <div class="card-header pb-0">
             <h6>Thêm Category</h6>
         </div>
-        @can('create category')
+        @can('create', \App\Models\Admin\Category::class)
             <form action="{{url('admin/category/store')}}" method="POST">
                 @csrf
                 <div class="card-body px-3 pt-2 pb-2">

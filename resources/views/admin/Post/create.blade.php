@@ -33,7 +33,7 @@
                     </div>
                     <div class="form-group">
                         <label for="exampleName"> Category</label>
-                        <select class="select2" name="category_id" multiple="multiple"
+                        <select class="select2" name="category_id[]" multiple="multiple"
                                 style="width: 100%">
                             @foreach ($categories as $category)
                                 <option value="{{ $category->id }}">{{ $category->name }}</option>

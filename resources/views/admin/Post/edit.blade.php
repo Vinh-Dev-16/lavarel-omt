@@ -32,11 +32,11 @@
                     </div>
                     <div class="form-group">
                         <label for="exampleName"> Category</label>
-                        <select class="select2" name="category_id" multiple="multiple"
+                        <select class="select2" name="category_id[]" multiple="multiple"
                                 style="width: 100%">
                             @foreach ($categories as $category)
                                 <option
-                                    @if($post->category_id == $category->id)
+                                    @if(in_array($category->id, $selectedID))
                                         selected
                                     @endif
                                     value="{{ $category->id }}">{{ $category->name }}</option>

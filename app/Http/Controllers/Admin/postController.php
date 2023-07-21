@@ -53,7 +53,9 @@ class postController extends Controller
         try {
             $input = $request->all();
             unset($input['_token']);
+            unset($input['category_id']);
             $post = Post::create($input);
+            $post->categories()->attach($request->input('category_id'));
             if (Session::get('post_url')) {
                 return redirect(session('post_url'))->with('success', 'Đã thêm post thành công');
             } else {
@@ -80,8 +82,9 @@ class postController extends Controller
     {
         $post= Post::find($id);
         $categories = Category::all();
+        $selectedID = $post->categories->pluck('id')->toArray();
         $this->authorize('update', $post);
-        return view('admin.post.edit', compact('post','categories'));
+        return view('admin.post.edit', compact('post','categories','selectedID'));
     }
 
 
@@ -100,19 +103,21 @@ class postController extends Controller
             ];
             $request->validate($rules, $messages);
         }
-        try {
+//        try {
             $post = Post::find($id);
             $input = $request->all();
             unset($input['_token']);
+            unset($input['category_id']);
             $post->update($input);
+            $post->categories()->sync($request->input('category_id'));
             if (Session::get('post_url')) {
                 return redirect(session('post_url'))->with('success', 'Đã sửa post thành công');
             } else {
                 return redirect('admin/post/index')->with('success', 'Đã sửa post thành công');
             }
-        }catch (\Exception $e) {
-            return redirect()->back()->with('error', $e->getMessage());
-        }
+//        }catch (\Exception $e) {
+//            return redirect()->back()->with('error', $e->getMessage());
+//        }
     }
 
 
@@ -144,7 +149,9 @@ class postController extends Controller
     }
 
     public function delete($id){
-        $post = Post::onlyTrashed()->find($id)->forceDelete();
+        $post = Post::find($id);
+        $post->categories()->detach();
+        $post->forceDelete();
         $this->authorize('delete', $post);
         return back()->with('success', 'Đã xóa product thành công');
     }

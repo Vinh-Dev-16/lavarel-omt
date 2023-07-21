@@ -117,7 +117,7 @@ class authController extends Controller
             'title' => 'Mã OTP của NEWS',
             'body' => 'Mã OTP của bạn là:' . $otp,
         ];
-        SendEmail::dispatch($data, $user)->delay(now()->addSecond(20));
+        SendEmail::dispatch($data, $user)->delay(now()->addSecond(6));
 
     }
 
@@ -134,6 +134,7 @@ class authController extends Controller
                 if (Session::get('password')) {
                     $user->update([
                         'password' => Hash::make(session('password')),
+                        'is_verified' => 1,
                     ]);
                     session()->forget('password');
                 } else {

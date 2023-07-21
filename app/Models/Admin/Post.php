@@ -22,9 +22,9 @@ class Post extends Model
         'avatar' => 'avatar',
     ];
 
-    public function category(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function categories(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsToMany(Category::class, 'post_category',  'post_id','category_id')->withTimestamps();
     }
     public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {

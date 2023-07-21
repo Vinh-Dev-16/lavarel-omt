@@ -35,7 +35,10 @@
 
                             <section>
                                 @if(\Illuminate\Support\Facades\Auth::check())
-                                <button id="btn-comment" class="btn btn-primary">Bình luận ngay</button>
+                                <button id="btn-comment" class="btn btn-primary">
+                                    <i class="ri-add-line me-1"></i>
+                                    Bình luận ngay
+                                </button>
                                     <div class="card-footer py-5 border-0 mt-6 mb-16 create-comment" style="background-color: #f8f9fa;">
                                         <div class="d-flex flex-start w-100">
                                             <div class="form-outline w-100">
@@ -78,7 +81,10 @@
                                                                         {{$comment->content}}
                                                                     </p>
                                                                     @can('delete', $comment)
-                                                                        <button id="delete-comment" type="button" class="btn btn-primary btn-sm mt-2">Xóa Comment</button>
+                                                                        <button onclick="return sendDelete({{$comment->id}})" type="button" class="btn btn-danger btn-sm mt-2">
+                                                                            <i class="ri-delete-bin-line me-1"></i>
+                                                                            Xóa Comment
+                                                                        </button>
                                                                     @endcan
                                                                 </div>
                                                              </div>
@@ -150,11 +156,30 @@
                 .then((response) => response.json())
                 .then((data) => {
                     showData(data);
+                    createSuccessToast('Đã bình luận');
                 })
                 .catch((error) => {
                     alert(error.message);
                 });
         };
+
+        // delete
+
+        async function sendDelete(id) {
+            const res = await fetch(`http://127.0.0.1:8000/comment/delete/${id}`)
+                .then((response) => response.json())
+                .then((data) => {
+                    showData(data);
+                })
+                .catch((error) => {
+                    alert(error.message);
+                });
+
+                createSuccessToast('Đã xóa bình luận');
+
+            return false;
+        }
+
 
         function showData(data) {
             let show = '';
@@ -176,9 +201,12 @@
                                    </p>
                              ${
                             (()=>{
-                                if(item.user_id == data.userID){
+                                if(item.user_id == data.userID || data.userID == 1){
                                     return `
-                                        <button id="delete-comment" type="button" class="btn btn-primary btn-sm mt-2">Xóa Comment</button>
+                                        <button onclick="return sendDelete(${item.id})" type="button" class="btn btn-danger btn-sm mt-2">
+                                         <i class="ri-delete-bin-line me-1"></i>
+                                        Xóa Comment
+                                        </button>
                                      `
                                 }else{
                                     return `
@@ -196,6 +224,8 @@
                 textAreaExample.value = '';
                 let createComment = document.querySelector('.create-comment');
                 createComment.classList.remove('active');
+            } else {
+                document.querySelector('.comment').innerHTML = '';
             }
 
         }

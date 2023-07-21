@@ -155,13 +155,140 @@ body {
 }
 
 .main-header {
-    min-height: 120px !important;
+    min-height: 200px !important;
     background-color: #222 !important;
 
 }
+.btn-middle-header {
+    padding: 6px 15px;
+    background: rgba(255,255,255,.2);
+    border-radius: 15px;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 24px;
+    color: #fff;
+    margin-right: 16px;
+    width: auto;
+}
+.btn-list-middle-header {
+    list-style: none;
+}
+.btn-middle-header::before {
+    content: '#';
+    margin-right: 3px;
+}
+.login-header {
+    padding: 7px 18px;
+    background-color: rgba(255,255,255,.2);
+    border-radius: 6px;
+}
+.login-header a {
+    color: white;
+    transition: 0.25s linear;
+}
+.login-header a:hover {
+    opacity: .7;
+}
+.user-login-dropdown {
+    background-color: rgba(255,255,255,.2);
+}
+.user-login-dropdown a{
+    padding: 7px 16px !important;
+}
+menu-item-dropdown li {
+    transition: .25s;
+}
 
+menu-item-dropdown li:hover {
+    background-color: #e7eaf0;
+}
 
+#icon-search-bar {
+    cursor: pointer;
+}
+#search-text-bar {
+    opacity: 0;
+    transition: all 0.5s;
+    width: 0;
+    border-radius: 6px;
+    height: 29px;
+}
+#search-text-bar.active {
+    width: 220px !important;
+    padding: 6px 16px !important;
+    height: 29px;
+    opacity: 1;
+}
 
+.bottom-header {
+    border-top: .5px solid slategrey;
+    margin-top: 60px;
+}
+.list-category-header{
+    list-style: none ;
+    margin-top: 20px;
+}
+.list-category-header li a {
+    color: white;
+    transition: .25s;
+}
+.list-category-header li a:hover {
+    color: red;
+}
+
+/*HOME*/
+
+.link-title-content {
+    text-decoration: none !important;
+}
+.image-title {
+    object-fit: cover;
+
+}
+.title-content {
+    margin: 20px 0 !important;
+    font-size: 22px !important;
+    transition: 0.25s;
+    font-weight: 600;
+    text-decoration: none !important;
+}
+.title-content:hover {
+    opacity: .75;
+}
+.title-content-main {
+    font-size: 16px !important;
+}
+
+.right-title-content {
+    font-size: 12px !important;
+    transition: 0.25s;
+    font-weight: 600;
+    text-decoration: none !important;
+}
+.right-title-content:hover {
+    opacity: .75;
+}
+
+.text-horizon {
+    font-size: 18px !important;
+    line-height: 140%;
+    text-transform: uppercase;
+    color: #111;
+    font-family: SFPD-Bold;
+    position: relative;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #adb2b7;
+}
+.text-horizon::before {
+    position: absolute;
+    content: '';
+    bottom: 0;
+    left: 0;
+    width: 10%;
+    height: 2px;
+    background: #c90000;
+}
 
 
 /*detail*/

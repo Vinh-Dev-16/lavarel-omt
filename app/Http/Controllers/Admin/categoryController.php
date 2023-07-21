@@ -118,8 +118,9 @@ class categoryController extends Controller
      */
     public function destroy($id)
     {
-        $post = Post::find($id)->delete();
-        $this->authorize('update', $post);
+        $category = Category::find($id);
+        $this->authorize('delete', $category);
+        $category->delete();
         if (Session::get('category_url')) {
             return redirect(session('category_url'))->with('success', 'Đã xóa category thành công');
         } else {

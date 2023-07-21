@@ -17,7 +17,7 @@
         <div class="card-header pb-0">
             <h6>Sửa Category</h6>
         </div>
-        @can('create category')
+        @can('update', $category)
             <form action="{{url('admin/category/update/' . $category->id)}}" method="POST">
                 @csrf
                 <div class="card-body px-3 pt-2 pb-2">
@@ -57,7 +57,7 @@
 @endsection
 @section('javascript')
     <script>
-        $(document).ready(function() {
+        $(document).ready(functiNcateon() {
             $('.select2').select2();
 
             $('.tag_multiple').select2({
