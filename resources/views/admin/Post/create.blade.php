@@ -52,6 +52,24 @@
                         @enderror
                     </div>
                     <div class="form-group">
+                        <label for="exampleName">Landing</label>
+                        <select class="form-control" id="exampleInputName" name="is_landing">
+                            <option value="0">Không có</option>
+                            <option value="1">Có</option>
+                        </select>
+                        @error('is_landing')
+                        <div class="text-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleName">Mô tả ngắn</label>
+                        <input type="text" class="form-control" id="exampleInputName"
+                               placeholder="Mô tả ngắn" name="short_description">
+                        @error('short_description')
+                        <div class="text-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="form-group">
                         <label for="exampleName">Content</label>
                         <textarea type="text" class="form-control editor" id="exampleInputName"
                                placeholder="Thêm content" name="content"></textarea>

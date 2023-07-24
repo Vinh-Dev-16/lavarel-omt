@@ -128,18 +128,7 @@ body {
     height: 100vh;
     color: black;
 }
-.overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    background-color: rgba(0, 0, 0, .5);
-    z-index: 490;
-    opacity: 1;
-    visibility: visible;
-    transition: opacity .2s;
-}
+
 .container {
     z-index: 600;
     background-color: white;

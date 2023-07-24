@@ -23,6 +23,15 @@ class homeController extends Controller
     public function category($id): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
     {
         $category = Category::find($id);
-        return view('user.design.category', compact('category'));
+
+        $relatedCategories = Category::where('parent_id', $category->id)->get();
+
+        $categoryItem = $relatedCategories->isNotEmpty() ? $relatedCategories : collect([$category]);
+
+        $categoryIds = $categoryItem->pluck('id')->toArray();
+
+        $posts = Post::whereHas('categories', function ($query) use ($categoryIds) {
+        $query->where('category_id' , $categoryIds); })->get();
+        return view('user.design.category', compact('category', 'categoryItem', 'posts'));
     }
 }

@@ -19,7 +19,9 @@ class Post extends Model
         'content' => 'content',
         'category_id' => 'category_id',
         'user_id' => 'user_id',
+        'short_description',
         'avatar' => 'avatar',
+        'is_landing' => 'is_landing',
     ];
 
     public function categories(): \Illuminate\Database\Eloquent\Relations\BelongsToMany

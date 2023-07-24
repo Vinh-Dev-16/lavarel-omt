@@ -55,6 +55,29 @@
                         @enderror
                     </div>
                     <div class="form-group">
+                        <label for="exampleName">Landing</label>
+                        <select class="form-control" id="exampleInputName" name="is_landing">
+                           @if($post->is_landing == 1)
+                               <option value="1" selected>Có</option>
+                               <option value="0">Không có</option>
+                            @else
+                                <option value="0" selected>Không có</option>
+                                <option value="1">Có</option>
+                           @endif
+                        </select>
+                        @error('is_landing')
+                        <div class="text-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleName">Mô tả ngắn</label>
+                        <input type="text" class="form-control" id="exampleInputName"
+                              value="{{$post->short_description}}" name="short_description">
+                        @error('shot_description')
+                        <div class="text-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="form-group">
                         <label for="exampleName">Content</label>
                         <input type="text" class="form-control editor" id="exampleInputName"
                                value="{{ $post->content }}" name="content">

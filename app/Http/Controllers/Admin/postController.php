@@ -43,6 +43,8 @@ class postController extends Controller
                 'content' => 'required',
                 'category_id' => 'required',
                 'avatar' => 'required',
+                'short_description' => 'required',
+                'is_landing' => 'required',
 
             ];
             $messages = [
@@ -97,6 +99,8 @@ class postController extends Controller
                 'category_id' => 'required',
                 'avatar' => 'required',
                 'author' => 'required',
+                'short_description' => 'required',
+                'is_landing' => 'required',
             ];
             $messages = [
                 'required' => 'Không được để trống trường này',
@@ -149,7 +153,7 @@ class postController extends Controller
     }
 
     public function delete($id){
-        $post = Post::find($id);
+        $post = Post::onlyTrashed()->find($id);
         $post->categories()->detach();
         $post->forceDelete();
         $this->authorize('delete', $post);

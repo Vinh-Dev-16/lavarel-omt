@@ -42,6 +42,48 @@
 
     <header>
         <div class="header-news position-relative min-height-100">
+            <div class="overlay"></div>
+            <div class="menu-item-hide position-fixed top-0 bottom-0 bg-white border-end">
+                <div class="close-menu position-absolute top-5 end-5 cursor-pointer">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path d="M12.0007 10.5865L16.9504 5.63672L18.3646 7.05093L13.4149 12.0007L18.3646 16.9504L16.9504 18.3646L12.0007 13.4149L7.05093 18.3646L5.63672 16.9504L10.5865 12.0007L5.63672 7.05093L7.05093 5.63672L12.0007 10.5865Z" fill="rgba(0,0,0,1)"></path></svg>
+                </div>
+                <div class="mt-4 ms-2">
+                    <svg style="margin-top: -9px !important;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="28" height="28"><path d="M12 3.09747L7.05025 8.04722C4.31658 10.7809 4.31658 15.213 7.05025 17.9467C9.78392 20.6804 14.2161 20.6804 16.9497 17.9467C19.6834 15.213 19.6834 10.7809 16.9497 8.04722L12 3.09747ZM12 0.269043L18.364 6.633C21.8787 10.1477 21.8787 15.8462 18.364 19.3609C14.8492 22.8756 9.15076 22.8756 5.63604 19.3609C2.12132 15.8462 2.12132 10.1477 5.63604 6.633L12 0.269043ZM7 12.997H17C17 15.7584 14.7614 17.997 12 17.997C9.23858 17.997 7 15.7584 7 12.997Z" fill="rgba(100,205,138,1)"></path></svg>
+                    <a href="{{url('/')}}" style="color: #4cc170;" class="mt-3 ms-1 text-uppercase fw-bold text-decoration-none fs-3 text-bs-indigo">NEWS</a>
+                </div>
+                <div class="item-menu-hide">
+                    <ul class="list-category-header">
+                        @foreach(\App\Models\Admin\Category::where('parent_id', 0)->whereNot(function ($query) { $query->where('id', 7);})->limit(8)->get() as $category)
+                            <li>
+                                <a href="{{url('category/'. $category->id)}}">{{$category->name}}</a>
+                            </li>
+                        @endforeach
+                    </ul>
+
+                    <div class="login-hide-item">
+                        @if(\Illuminate\Support\Facades\Auth::check())
+                            <div class="dropdown user-login-dropdown">
+                                    <form role="form" action="{{ url('logout') }}" method="POST">
+                                        @csrf
+                                        <button type="submit"
+                                                style="outline: none; border: none; background-color: transparent;display: flex;">
+                                            <div
+                                                class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                                                <i class="ri-login-box-line text-warning  text-sm opacity-10"></i>
+                                            </div>
+                                            <span class="nav-link-text ms-1" style="font-size:14px; margin-top:4px;">Log Out</span>
+                                        </button>
+                                    </form>
+                                </ul>
+                            </div>
+                        @else
+                            <div class="login-header">
+                                <a style="color:black; margin-left: 23px" href="{{ url('/login')}}">Đăng nhập</a>
+                            </div>
+                        @endif
+                    </div>
+                </div>
+            </div>
             <div class="container">
                 <div class="top-header d-md-flex justify-content-center align-items-center gap-md-7 ">
                     <a href="#" target="_blank" class="text-uppercase text-xs ">GameK</a>
@@ -53,13 +95,14 @@
                 <div class="container">
                     <div class="middle-header">
                         <div class="row">
-                            <div class="col-sm-2">
-                                <div class="logo mt-2">
+                            <div class="col-sm-2 logo">
+                                <div class="mt-2">
                                     <svg style="margin-top: -9px !important;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="28" height="28"><path d="M12 3.09747L7.05025 8.04722C4.31658 10.7809 4.31658 15.213 7.05025 17.9467C9.78392 20.6804 14.2161 20.6804 16.9497 17.9467C19.6834 15.213 19.6834 10.7809 16.9497 8.04722L12 3.09747ZM12 0.269043L18.364 6.633C21.8787 10.1477 21.8787 15.8462 18.364 19.3609C14.8492 22.8756 9.15076 22.8756 5.63604 19.3609C2.12132 15.8462 2.12132 10.1477 5.63604 6.633L12 0.269043ZM7 12.997H17C17 15.7584 14.7614 17.997 12 17.997C9.23858 17.997 7 15.7584 7 12.997Z" fill="rgba(100,205,138,1)"></path></svg>
                                     <a href="{{url('/')}}" style="color: #4cc170;" class="mt-3 ms-1 text-uppercase fw-bold text-decoration-none fs-3 text-bs-indigo">NEWS</a>
                                 </div>
                             </div>
                             <div class="col-md-4 d-flex justify-content-start align-items-center">
+                                    <svg class="bar-chat me-3 cursor-pointer" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path d="M3 4H21V6H3V4ZM3 19H21V21H3V19ZM3 14H21V16H3V14ZM3 9H21V11H3V9Z" fill="rgba(255,255,255,1)"></path></svg>
                                 <div class="trending-icon">
                                     <svg width="20" height="13" viewBox="0 0 20 13" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <g clip-path="url(#clip0_2_588)">
@@ -83,7 +126,7 @@
                                     </ul>
                                 </div>
                             </div>
-                            <div class="col-md-6 z d-sm-flex justify-content-end align-items-center">
+                            <div class="hide-mobile col-md-6 z d-sm-flex justify-content-end align-items-center">
                                     @if(\Illuminate\Support\Facades\Auth::check())
                                         <div class="dropdown user-login-dropdown">
                                             <a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -123,15 +166,14 @@
                     <div class="bottom-header mt-11">
                         <div class="row">
                             <div class="col-md-10">
-                                <ul class="list-category-header d-sm-flex justify-content-start align-items-center gap-7">
-                                    @foreach(\App\Models\Admin\Category::limit(8)->get() as $category)
+                                <ul class="list-category-header hide-mobile d-sm-flex justify-content-start align-items-center gap-7">
+                                    @foreach(\App\Models\Admin\Category::where('parent_id', 0)->whereNot(function ($query) { $query->where('id', 7);})->limit(8)->get() as $category)
                                         <li>
                                             <a href="{{url('category/'. $category->id)}}">{{$category->name}}</a>
                                         </li>
                                     @endforeach
                                 </ul>
                             </div>
-                            <div class="col-md-2"></div>
                         </div>
                     </div>
                 </div>
@@ -142,7 +184,7 @@
 
     </nav>
 
-    <main class="my-20">
+    <main >
         @section('content')
         @show
     </main>
@@ -219,8 +261,41 @@
             inputSearchNavbar.classList.toggle('active');
         });
 
+        let barChat = document.querySelector('.bar-chat');
+        let menuHide = document.querySelector('.menu-item-hide');
+        let overlay = document.querySelector('.overlay');
+        let closeMenu = document.querySelector('.close-menu');
 
 
+        barChat.addEventListener('click', ()=> {
+            menuHide.classList.add('active');
+            overlay.classList.add('active');
+        })
+
+        closeMenu.addEventListener('click', ()=> {
+            menuHide.classList.remove('active');
+            overlay.classList.remove('active');
+        })
+
+        function hasClass(element, className) {
+            return element.classList.contains(className);
+        }
+
+
+        function removeActiveClass() {
+            menuHide.classList.remove('active');
+            overlay.classList.remove('active');
+        }
+
+        overlay.addEventListener('click', () => {
+            if (hasClass(menuHide, 'active')) {
+                removeActiveClass();
+            }
+        });
+
+        closeMenu.addEventListener('click', () => {
+            removeActiveClass();
+        });
 
         // Tao Toast
         const notifications = document.querySelector('.notification');

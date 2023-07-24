@@ -5,7 +5,7 @@
     Chi tiết {{\Illuminate\Support\Str::of($post->title)->words(6)}}
 @endsection
 @section('content')
-    <div class= "detail-main mt-20 mb-20">
+    <div class= "detail-main my-20">
         <nav aria-label="breadcrumb breadcrumb-admin ">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{url('/')}}">Home</a></li>
