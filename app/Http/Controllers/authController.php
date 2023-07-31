@@ -72,8 +72,8 @@ class authController extends Controller
         if (Auth::attempt($credentials ,$remember)) {
             $user = $this->userService->getOne(Auth::user()->id);
             if ($user->is_verified == 1) {
-                if ($user->role) {
-                    if ($user->role->name == 'user') {
+                if ($user->roles) {
+                    if ($user->hasRole('user')) {
                         return redirect('/');
                     } else {
                         return redirect('/admin/dashboard');

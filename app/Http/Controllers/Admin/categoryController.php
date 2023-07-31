@@ -20,7 +20,6 @@ class categoryController extends Controller
     public function index()
     {
         $categories = Category::paginate(6);
-        $this->authorize('viewAny', Category::class);
         Session::put('category_url', request()->fullUrl());
         return view('admin.category.index', compact('categories'));
     }
@@ -29,7 +28,6 @@ class categoryController extends Controller
     public function create()
     {
         $categories = Category::all();
-        $this->authorize('create', Category::class);
         return view('admin.category.create', compact('categories'));
     }
 
@@ -40,6 +38,8 @@ class categoryController extends Controller
             $rules = [
                 'name' => 'required|max:255',
                 'parent_id' => 'required',
+                'category_id' => 'required',
+                'slug' => 'required',
             ];
             $messages = [
                 'required' => 'Không được để trống trường này',
@@ -76,9 +76,9 @@ class categoryController extends Controller
     public function edit($id)
     {
         $category = Category::find($id);
-        $this->authorize('update', $category);
         $categories = Category::all();
-        return view('admin.category.edit', compact('categories', 'category'));
+        $selectedID = $categories->pluck('parent_id')->toArray();
+        return view('admin.category.edit', compact('categories', 'category', 'selectedID'));
     }
 
 
@@ -88,6 +88,7 @@ class categoryController extends Controller
             $rules = [
                 'name' => 'required|max:255',
                 'parent_id' => 'required',
+                'slug' => 'required',
             ];
             $messages = [
                 'required' => 'Không được để trống trường này',
@@ -119,7 +120,6 @@ class categoryController extends Controller
     public function destroy($id)
     {
         $category = Category::find($id);
-        $this->authorize('delete', $category);
         $category->delete();
         if (Session::get('category_url')) {
             return redirect(session('category_url'))->with('success', 'Đã xóa category thành công');

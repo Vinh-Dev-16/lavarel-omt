@@ -14,6 +14,7 @@ class Category extends Model
     protected $fillable = [
         'name' => 'name',
         'parent_id' => 'parent_id',
+        'slug' => 'slug',
     ];
 
     public function posts(): \Illuminate\Database\Eloquent\Relations\BelongsToMany

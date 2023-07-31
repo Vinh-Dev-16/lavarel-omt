@@ -53,7 +53,7 @@ class PostPolicy
      */
     public function update(User $user, Post $post)
     {
-        return  $user->can('isAdmin') || $user->id == $post->user_id;
+        return  $user->id == $post->user_id;
     }
 
     /**

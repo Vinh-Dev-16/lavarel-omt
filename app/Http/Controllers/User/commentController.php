@@ -28,6 +28,25 @@ class commentController extends Controller
     }
 
 
+    public function reply(Request $request)
+    {
+        if ($request->isMethod('post')) {
+            $data = $request->all();
+            Comment::create($data);
+            $post = Post::where('id', $request->post_id)->with('user:id,name' ,
+                'comments.replies',
+                'user:id,name',
+                'comments.user:id,name',
+                'comments.replies.user:id,name')->first();
+            $post->toArray();
+
+            return response()->json(
+                [
+                    'posts' => $post,
+                ]
+            );
+        }
+    }
     public function delete($id): \Illuminate\Http\JsonResponse
     {
         $comment = Comment::find($id);

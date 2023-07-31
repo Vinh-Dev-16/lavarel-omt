@@ -9,9 +9,10 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\Admin\Post as Post;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Traits\hasPermissionTrait as hasPermissionTrait;
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes, hasPermissionTrait;
 
     /**
      * The attributes that are mass assignable.
@@ -53,13 +54,11 @@ class User extends Authenticatable
     {
         return $this->hasMany(Post::class);
     }
-    public function role(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(Role::class);
-    }
+
     public function comments(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Comment::class);
     }
+
 
 }

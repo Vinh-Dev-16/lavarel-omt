@@ -7,40 +7,53 @@
 
 @section('content')
     <div class="category-page">
-        <div class="category-children container">
+        <div class="category-children">
                 <div class="category-children-item d-sm-flex gap-5 justify-content-start align-items-center">
                 @if(\App\Models\Admin\Category::where('parent_id' , $category->id)->count() > 0)
-                @foreach(\App\Models\Admin\Category::where('parent_id' , $category->id)->get() as $index=>$category)
-                    <?php    $isActive = $index === 0 ? 'active' : ''; ?>
-                    <a href="{{url('category/'. $category->id)}}" class="{{$isActive}}">{{$category->name}}</a>
+                        <a href="{{url('category/'. $category->slug)}}" class="{{ request()->is('category/' .$category->slug) ? 'active' : '' }}">{{$category->name}}</a>
+                @foreach(\App\Models\Admin\Category::where('parent_id' , $category->id)->get() as $category)
+                    <a href="{{url('category/'. $category->slug)}}" class="{{ request()->is('category/' .$category->slug) ? 'active' : '' }}">{{$category->name}}</a>
                 @endforeach
                 @else
+                    @if(\App\Models\Admin\Category::where('id', $category->parent_id)->count() > 0)
+                    @foreach(\App\Models\Admin\Category::where('id', $category->parent_id)->get() as $item)
+                            <a href="{{url('category/'. $item->slug)}}" class="{{ request()->is('category/'. $item->slug) ? 'active' : '' }}">{{$item->name}}</a>
+                    @endforeach
+                        @else
+                            <a href="{{url('category/'. $category->slug)}}" class="{{ request()->is('category/'. $category->slug) ? 'active' : '' }}">{{$category->name}}</a>
+                    @endif
                     @foreach(\App\Models\Admin\Category::where('parent_id', $category->parent_id)->where('parent_id', '!=', 0)->get() as $category)
-                        <a href="{{url('category/'. $category->id)}}" class="{{ request()->is('category/'. $category->id) ? 'active' : '' }}">{{$category->name}}</a>
+                        <a href="{{url('category/'. $category->slug)}}" class="{{ request()->is('category/'. $category->slug) ? 'active' : '' }}">{{$category->name}}</a>
                     @endforeach
                 @endif
             </div>
         </div>
-        <div class="container">
+        <div>
         <div class="row">
-            <div class="col-sm-6">
+            <div class="col-sm-11">
                 <div class="left-category mt-12">
-                    @foreach($posts as $item)
-                        @if($item->is_landing == 1)
-                        <a href="{{url('detail/'. $item->id)}}" class="link-title-content">
-                            <img class="image-title" src="{{$item->avatar}}" alt="ảnh content">
-                            <h5 class="title-content">{{$item->title}}</h5>
-                        </a>
-                        @endif
-                    @endforeach
+                    <div class="row">
+                        <div class="col-md-8">
+                            @foreach($posts->where('status', 1)->sortByDesc('created_at')->take(1) as $post)
+                                @if($post->is_landing == 1)
+                                    <div>
+                                        <a href="{{url('detail/'. $post->slug)}}" class="link-title-content">
+                                            <img class="image-title" src="{{asset('storage/image/' . $post->avatar)}}" alt="ảnh content">
+                                            <h5 class="title-content title-content-main">{{$post->title}}</h5>
+                                        </a>
+                                    </div>
+                                @endif
+                            @endforeach
+                        </div>
+                    </div>
                 </div>
                 <div class="left-category-children">
                     <div class="row">
-                    @foreach($posts->take(2)->sortByDesc('created_at') as $post)
+                    @foreach($posts->where('status', 1)->sortByDesc('created_at')->take(2) as $post)
                         @if($post->is_landing == 0)
-                            <div class="col-sm-6">
-                            <a href="{{url('detail/'. $post->id)}}" class="link-title-content">
-                                <img class="image-title" src="{{$post->avatar}}" alt="ảnh content">
+                            <div class="col-sm-4">
+                            <a href="{{url('detail/'. $post->slug)}}" class="link-title-content">
+                                <img class="image-title" src="{{asset('storage/image/' . $post->avatar)}}" alt="ảnh content">
                                 <h5 class="title-content title-content-main">{{$post->title}}</h5>
                             </a>
                             </div>
@@ -51,9 +64,9 @@
             </div>
             <div class="col-sm-6">
                 <div class="right-category">
-                    @foreach($posts->take(3)->sortByDesc('created_at')->skip(3) as $post)
+                    @foreach($posts->where('status', 1)->take(3)->sortByDesc('created_at')->skip(3) as $post)
                         <div>
-                            <img src="{{$post->avatar}}" alt="ảnh content">
+                            <img src="{{asset('storage/image/' . $post->avatar)}}" alt="ảnh content">
                             <h5 class="title-content title-content-main">
                                 {{$post->title}}
                             </h5>

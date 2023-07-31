@@ -24,7 +24,8 @@
               <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ID</th>
               <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">User</th>
               <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Role</th>
-              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Cấp quyền</th>
+              <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Permission</th>
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Cấp quyền</th>
             </tr>
           </thead>
           <tbody>
@@ -45,11 +46,30 @@
                 </div>
               </td>
               <td class="align-middle text-sm">
-                <span class="badge badge-sm bg-gradient-success">{{$user->role->name}}
+                  @foreach($user->roles as $role)
+                <span class="badge badge-sm bg-gradient-success">{{$role->name}}
                 </span>
+                  @endforeach
               </td>
+                <td class="align-middle text-sm">
+                    @if (count($user->permissions) > 0)
+                        @foreach($user->permissions as $permission)
+                            <span class="badge badge-sm bg-gradient-success">{{$permission->name}}
+                            </span>
+                        @endforeach
+                    @else
+                        @foreach($user->roles as $role)
+                            @foreach($role->permissions as $permission)
+                            <span class="badge badge-sm bg-gradient-success">{{$permission->name}}
+                            </span>
+                            @endforeach
+                        @endforeach
+                    @endif
+                </td>
               <td class="align-middle text-center">
-                <span class="text-secondary text-xs"><a href="">Phân role</a></span>
+                <span class="text-secondary text-xs"><a href="{{url('admin/user/role/' . $user->id)}}">Phân role</a></span>
+                  <br>
+                  <span class="text-secondary text-xs"><a href="{{url('admin/user/permission/' . $user->id)}}">Phân permision</a></span>
               </td>
             </tr>
             @endforeach

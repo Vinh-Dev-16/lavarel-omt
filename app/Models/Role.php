@@ -12,10 +12,20 @@ class Role extends Model
     protected $primaryKey = 'id';
     protected $fillable = [
         'name' => 'name',
+        'slug' => 'slug',
     ];
 
-    public function user(): \Illuminate\Database\Eloquent\Relations\HasOne
+    public function permissions(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->hasOne(User::class);
+
+        return $this->belongsToMany(Permission::class,'roles_permissions')->withTimestamps();
+
+    }
+
+    public function users(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+
+        return $this->belongsToMany(User::class,'users_roles')->withTimestamps();
+
     }
 }

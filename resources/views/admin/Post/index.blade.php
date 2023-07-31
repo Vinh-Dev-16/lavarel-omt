@@ -18,9 +18,8 @@
             <h6>Post Table</h6>
             <div class="mb-4 mt-4">
 
-                 @can('create', \App\Models\Admin\Post::class)
                    <a class="btn bg-gradient-dark mb-0" href="{{url('admin/post/create')}}"><i class="fas fa-plus" aria-hidden="true"></i>&nbsp;&nbsp;Thêm Post</a>
-                @endcan
+
                     <a class="btn bg-gradient-dark mb-0 ms-2" href="{{url('admin/post/restore')}}"><i class="ri-restart-line" aria-hidden="true"></i>&nbsp;&nbsp;Restore Post</a>
             </div>
         </div>
@@ -45,7 +44,7 @@
                                 <p class="text-xs text-center  mb-0" style="width:38%" >{{$post->id}}</p>
                             </td>
                             <td>
-                                <img style="object-fit: cover; width: 100px; height: 100px;" src="{{$post->avatar}}" alt="{{$post->title}}">
+                                <img style="object-fit: cover; width: 100px; height: 100px;" src="{{asset('storage/image/' .$post->avatar)}}" alt="{{$post->title}}">
                             </td>
                             <td>
                                 <p class="text-xs mb-0" >{{Illuminate\Support\Str::of($post->title)->words(10)}}</p>
@@ -59,12 +58,12 @@
                                 @endforeach
                             </td>
                             <td class="align-middle text-center ms-auto text-end">
-                                    @can('delete',$post)
+                               @can('delete', $post)
                                     <a class="btn btn-link text-danger text-gradient px-3 mb-0" onclick="return confirmation(this)" href="{{url('admin/post/destroy/'. $post->id)}}" ><i class="far fa-trash-alt me-2" aria-hidden="true"></i>Delete</a>
-                                    @endcan
-                                    @can('update', $post)
-                                        <a class="btn btn-link text-dark px-3 mb-0" href="{{url('admin/post/edit/'. $post->id)}}"><i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>Edit</a>
-                                        @endcan
+                                @endcan
+                                @can('update', $post)
+                                    <a class="btn btn-link text-dark px-3 mb-0" href="{{url('admin/post/edit/'. $post->id)}}"><i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>Edit</a>
+                                   @endcan
                             </td>
                         </tr>
                     @endforeach

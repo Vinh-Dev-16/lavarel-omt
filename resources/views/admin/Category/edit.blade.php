@@ -17,15 +17,23 @@
         <div class="card-header pb-0">
             <h6>Sửa Category</h6>
         </div>
-        @can('update', $category)
+        @can('edit-category')
             <form action="{{url('admin/category/update/' . $category->id)}}" method="POST">
                 @csrf
                 <div class="card-body px-3 pt-2 pb-2">
                     <div class="form-group">
                         <label for="exampleName">Tên Category</label>
-                        <input type="text" class="form-control" id="exampleInputName"
+                        <input type="text" class="form-control" id="slug" onkeyup="ChangeToSlug();"
                              value="{{$category->name}}" name="name">
                         @error('name')
+                        <div class="text-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleName">Slug</label>
+                        <input type="text" class="form-control"
+                               value="{{$category->slug}}" name="slug" id="convert_slug">
+                        @error('slug')
                         <div class="text-danger">{{ $message }}</div>
                         @enderror
                     </div>
@@ -35,11 +43,13 @@
                                 style="width: 100%">
                             <option value="0">None</option>
                             @foreach ($categories as $item)
+                                @if ($category->parent_id == 0)
                                 <option
                                     @if($category->parent_id == $item->id)
                                         selected
                                     @endif
                                     value="{{ $item->id }}">{{ $item->name }}</option>
+                                @endif
                             @endforeach
                         </select>
                         @error('parent_id')

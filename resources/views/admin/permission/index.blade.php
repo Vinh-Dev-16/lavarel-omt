@@ -17,7 +17,7 @@
     <div class="card-header pb-0">
       <h6>Permission Table</h6>
       <div class="mb-4 mt-4">
-          @can('create permission')
+        @can('create-permission')
         <a class="btn bg-gradient-dark mb-0" href="{{url('admin/permission/create')}}"><i class="fas fa-plus" aria-hidden="true"></i>&nbsp;&nbsp;Thêm permission</a>
           @endcan
       </div>
@@ -55,11 +55,11 @@
                @endif
               </td>
               <td class="align-middle text-center ms-auto text-end">
-                    @can('delete permission')
-                    <a class="btn btn-link text-danger text-gradient px-3 mb-0" onclick="return confirm('Bạn có muốn xóa không?')" href="{{url('admin/permission/destroy/'. $permission->id)}}"><i class="far fa-trash-alt me-2" aria-hidden="true"></i>Delete</a>
-                    @endcan
-                    @can('edit permission')
-                    <a class="btn btn-link text-dark px-3 mb-0" href="{{url('admin/permission/edit/'. $permission->id)}}"><i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>Edit</a>
+                    @can('delete-permission')
+                    <a class="btn btn-link text-danger text-gradient px-3 mb-0" onclick="return confirmation(this)" href="{{url('admin/permission/destroy/'. $permission->id)}}"><i class="far fa-trash-alt me-2" aria-hidden="true"></i>Delete</a>
+                  @endcan
+                  @can('edit-permission')
+                    <a class="btn btn-link text-dark px-3 mb-0" href="{{url('admin/permission/edit/'. $permission->slug)}}"><i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>Edit</a>
                         @endcan
               </td>
             </tr>
@@ -71,4 +71,26 @@
   </div>
   {{$permissions->links('vendor.pagination.bootstrap-4')}}
 
+@endsection
+
+@section('javascript')
+    <script>
+        function confirmation(eve) {
+            let url = eve.getAttribute('href');
+            console.log(url);
+            swal({
+                title: 'Bạn có chắc là xóa nó chứ?',
+                text: 'Bạn có thể restore nó',
+                icon: 'warning',
+                buttons: true,
+                dangerMode: true,
+            })
+                .then((willCancle)=>{
+                    if (willCancle) {
+                        window.location.href = url;
+                    }
+                })
+            return false;
+        }
+    </script>
 @endsection

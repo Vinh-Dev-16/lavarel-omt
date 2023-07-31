@@ -17,15 +17,23 @@
         <div class="card-header pb-0">
             <h6>Thêm Category</h6>
         </div>
-        @can('create', \App\Models\Admin\Category::class)
+        @can('create-category')
             <form action="{{url('admin/category/store')}}" method="POST">
                 @csrf
                 <div class="card-body px-3 pt-2 pb-2">
                     <div class="form-group">
                         <label for="exampleName">Tên Category</label>
-                        <input type="text" class="form-control" id="exampleInputName"
-                               placeholder="Thêm category" name="name">
+                        <input type="text" class="form-control"
+                               placeholder="Thêm category" name="name" id="slug" onkeyup="ChangeToSlug();">
                         @error('name')
+                        <div class="text-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleName">Slug</label>
+                        <input type="text" class="form-control"
+                               placeholder="slug" name="slug" id="convert_slug">
+                        @error('slug')
                         <div class="text-danger">{{ $message }}</div>
                         @enderror
                     </div>
@@ -35,7 +43,9 @@
                                 style="width: 100%">
                             <option value="0">None</option>
                             @foreach ($categories as $category)
+                                @if($category->parent_id == 0)
                                 <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                @endif
                             @endforeach
                         </select>
                         @error('parent_id')

@@ -18,7 +18,7 @@ class checkRoleAuth
     public function handle(Request $request, Closure $next)
     {
         if(Auth::check()) {
-            if(!(Auth::user()->role_id == 2) ) {
+            if(!(Auth::user()->hasRole('user')) ) {
                 return $next($request);
             }else{
                 return redirect('/')->with('error', 'Không có quyền truy cập ');

@@ -17,7 +17,7 @@
     <div class="card-header pb-0">
       <h6>Role table</h6>
       <div class="mb-4 mt-4">
-          @can('create', \App\Models\Role::class)
+        @can('create-role')
         <a class="btn bg-gradient-dark mb-0" href="{{url('admin/role/create')}}"><i class="fas fa-plus" aria-hidden="true"></i>&nbsp;&nbsp;Thêm role</a>
           @endcan
       </div>
@@ -29,6 +29,7 @@
             <tr>
               <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ID</th>
               <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ">Role</th>
+              <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Permission</th>
               <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder  opacity-7">Thao tác</th>
             </tr>
           </thead>
@@ -41,13 +42,24 @@
                 <td>
                     <p class="text-xs ms-3 mb-0" >{{$role->name}}</p>
                   </td>
+                <td class="align-middle text-sm">
+                    @if ($role->permissions->count() > 0)
+                        @foreach ($role->permissions as $permission)
+                            <span class="badge badge-sm bg-gradient-success">{{$permission->name}}
+                   </span>
+                        @endforeach
+                    @else
+                        <span class="badge badge-sm bg-gradient-success">Không có
+                </span>
+                    @endif
+                </td>
               <td class="align-middle text-center ms-auto text-end">
-                  @can('delete', $role)
+                  @can('delete-role')
                   <a class="btn btn-link text-danger text-gradient px-3 mb-0" onclick="return confirmation(this)"  href="{{url('admin/role/destroy/'. $role->id)}}"><i class="far fa-trash-alt me-2" aria-hidden="true"></i>Delete</a>
                   @endcan
-                  @can('update', $role)
-                    <a class="btn btn-link text-dark px-3 mb-0" href="{{url('admin/role/edit/'. $role->id)}}"><i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>Edit</a>
-                    @endcan
+                  @can('edit-role')
+                    <a class="btn btn-link text-dark px-3 mb-0" href="{{url('admin/role/edit/'. $role->slug)}}"><i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>Edit</a>
+                      @endcan
               </td>
             </tr>
             @endforeach

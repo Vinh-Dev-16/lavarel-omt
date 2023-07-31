@@ -19,15 +19,23 @@
         <div class="card-header pb-0">
             <h6>Thêm post</h6>
         </div>
-        @can('create', \App\Models\Admin\Post::class)
-            <form action="{{url('admin/post/store')}}" method="POST">
+        @can('create-post')
+            <form action="{{url('admin/post/store')}}" method="POST" enctype="multipart/form-data">
                 @csrf
-                <div class="card-body px-3 pt-2 pb-2">
+                    <div class="card-body px-3 pt-2 pb-2">
                     <div class="form-group">
                         <label for="exampleName">Title</label>
-                        <input type="text" class="form-control" id="exampleInputName"
-                               placeholder="Thêm post" name="title">
+                        <input type="text" class="form-control" id="slug" onkeyup="ChangeToSlug();"
+                               placeholder="Tiêu đề" name="title">
                         @error('title')
+                        <div class="text-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleName">Slug</label>
+                        <input type="text" class="form-control"
+                               placeholder="slug" name="slug" id="convert_slug">
+                        @error('slug')
                         <div class="text-danger">{{ $message }}</div>
                         @enderror
                     </div>
@@ -44,10 +52,30 @@
                         @enderror
                     </div>
                     <div class="form-group">
+                        <label for="exampleName"> Group</label>
+                        <select class="select2" name="group_id"
+                                style="width: 100%">
+                            @foreach ($groups as $group)
+                                <option value="{{ $group->id }}">{{ $group->name }}</option>
+                            @endforeach
+                        </select>
+                        @error('group_id')
+                        <div class="text-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="form-group">
                         <label for="exampleName">Avatar</label>
-                        <input type="text" class="form-control" id="exampleInputName"
+                        <input type="file" class="form-control" id="exampleInputName"
                                placeholder="Link ảnh" name="avatar">
                         @error('avatar')
+                        <div class="text-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleName">Tag</label>
+                        <input type="text" class="form-control" id="exampleInputName"
+                               placeholder="tag" name="tags">
+                        @error('tags')
                         <div class="text-danger">{{ $message }}</div>
                         @enderror
                     </div>

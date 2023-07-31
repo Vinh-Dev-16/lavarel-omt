@@ -17,16 +17,24 @@
         <div class="card-header pb-0">
             <h6>Sửa post</h6>
         </div>
-        @can('update', $post)
-            <form action="{{url('admin/post/update/'. $post->id)}}" method="POST">
+        @can('edit-post')
+            <form action="{{url('admin/post/update/'. $post->id)}}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PATCH')
                 <div class="card-body px-3 pt-2 pb-2">
                     <div class="form-group">
                         <label for="exampleName">Title</label>
-                        <input type="text" class="form-control" id="exampleInputName"
+                        <input type="text" class="form-control" id="slug" onkeyup="ChangeToSlug();"
                                value="{{$post->title}}" name="title">
                         @error('title')
+                        <div class="text-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleName">Slug</label>
+                        <input type="text" class="form-control"
+                              value="{{$post->slug}}" name="slug" id="convert_slug">
+                        @error('slug')
                         <div class="text-danger">{{ $message }}</div>
                         @enderror
                     </div>
@@ -47,9 +55,27 @@
                         @enderror
                     </div>
                     <div class="form-group">
+                        <label for="exampleName"> Group</label>
+                        <select class="select2" name="group_id"
+                                style="width: 100%">
+                            @foreach ($groups as $item)
+                                <option
+                                    @if($post->group_id == $item->id)
+                                        selected
+                                    @endif
+                                    value="{{ $item->id }}">{{ $item->name }}</option>
+                            @endforeach
+                        </select>
+                        @error('group_id')
+                        <div class="text-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="form-group">
+                        <img style="width:20%; object-fit: cover;" src="{{asset('storage/image/'. $post->avatar)}}" alt="anh">
+                        <br>
                         <label for="exampleName">Avatar</label>
-                        <input type="text" class="form-control" id="exampleInputName"
-                               value="{{$post->avatar}}" name="avatar">
+                        <input type="file" value="{{$post->avatar}}" class="form-control" id="exampleInputName"
+                          name="avatar">
                         @error('avatar')
                         <div class="text-danger">{{ $message }}</div>
                         @enderror
@@ -66,6 +92,14 @@
                            @endif
                         </select>
                         @error('is_landing')
+                        <div class="text-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleName">Tag</label>
+                        <input type="text" class="form-control" id="exampleInputName"
+                              value="{{$post->tags}}" name="tags">
+                        @error('tags')
                         <div class="text-danger">{{ $message }}</div>
                         @enderror
                     </div>

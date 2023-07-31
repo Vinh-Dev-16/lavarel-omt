@@ -22,6 +22,10 @@ class Post extends Model
         'short_description',
         'avatar' => 'avatar',
         'is_landing' => 'is_landing',
+        'slug' => 'slug',
+        'status' => 'status',
+        'group_id' => 'group_id',
+        'tags' => 'tags',
     ];
 
     public function categories(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
@@ -33,6 +37,10 @@ class Post extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function group(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Group::class);
+    }
 
     public function comments(): \Illuminate\Database\Eloquent\Relations\HasMany
     {

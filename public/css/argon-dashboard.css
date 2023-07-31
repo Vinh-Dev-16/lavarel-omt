@@ -89,6 +89,11 @@
    border-radius: 6px;
 }
 
+.content-show img {
+    object-fit: cover;
+    max-width: 100% !important;
+}
+
 .notification {
   position: fixed;
   top: 3.875em;
@@ -231,11 +236,11 @@ hr {
   border-top: 1px solid;
   opacity: 0.25;
 }
-.sidebar li .submenu{ 
-	list-style: none; 
-	margin: 0; 
-	padding: 0; 
-	padding-left: 2.5rem; 
+.sidebar li .submenu{
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	padding-left: 2.5rem;
 	padding-right: 1rem;
 }
 h1,
@@ -27048,6 +27053,9 @@ pre[class*="language-"] {
   background-color: #999;
   width: 11px;
 }
+
+
+
 
 /* MS supports */
 @supports (-ms-overflow-style: none) {

@@ -17,15 +17,33 @@
         <div class="card-header pb-0">
         <h6>Sửa Role</h6>
         </div>
-        @can('update', $role)
+        @can('edit-role')
         <form action="{{url('admin/role/update/'. $role->id)}}" method="POST">
             @csrf
             @method('PATCH')
             <div class="card-body px-3 pt-2 pb-2">
                 <div class="form-group">
                     <label for="exampleName">Role</label>
-                    <input type="text" class="form-control" id="exampleInputName"
-                        value="{{$role->name}}" name="role">
+                    <input type="text" class="form-control" id="slug" onkeyup="ChangeToSlug();"
+                        value="{{$role->name}}" name="name">
+                </div>
+                <div class="form-group">
+                    <label for="exampleName">Slug</label>
+                    <input type="text" class="form-control"
+                           value="{{$role->slug}}" name="slug" id="convert_slug">
+                    @error('slug')
+                    <div class="text-danger">{{ $message }}</div>
+                    @enderror
+                 </div>
+                <div class="form-group">
+                    <label for="exampleName"> Permission</label>
+                    <select class="select2" name="permission_id[]" multiple="multiple"
+                            style="width: 100%">
+                       c
+                    </select>
+                    @error('category_id')
+                    <div class="text-danger">{{ $message }}</div>
+                    @enderror
                 </div>
                 <div class="card-footer">
                     <button type="submit" class="btn btn-primary">Submit</button>

@@ -23,9 +23,9 @@ class AuthServiceProvider extends ServiceProvider
     protected $policies = [
         // 'App\Models\Model' => 'App\Policies\ModelPolicy',
         Post::class => PostPolicy::class,
-        Category::class => CategoryPolicy::class,
-        Role::class => RolePolicy::class,
-        Comment::class => CommentPolicy::class,
+//        Category::class => CategoryPolicy::class,
+//        Role::class => RolePolicy::class,
+//        Comment::class => CommentPolicy::class,
     ];
 
     /**
@@ -37,20 +37,10 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        Gate::define('isAuthor', function ( $user) {
-            return $user->role->name == 'author';
+        Gate::define('delete', function(User $user, Post $post) {
+            return $user->id == $post->user_id || $user->can('delete-post');
         });
 
-        Gate::define('isAdmin', function ( $user) {
-            return $user->role->name == 'admin';
-        });
 
-        Gate::define('isUser', function ( $user) {
-            return $user->role->name == 'user';
-        });
-
-        Gate::define('isManager', function ( $user) {
-            return $user->role->name == 'manager';
-        });
     }
 }

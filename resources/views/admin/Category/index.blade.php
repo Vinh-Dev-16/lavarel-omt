@@ -17,7 +17,7 @@
         <div class="card-header pb-0">
             <h6>Category Table</h6>
             <div class="mb-4 mt-4">
-                @can('create', \App\Models\Admin\Category::class)
+                @can('create-category')
                     <a class="btn bg-gradient-dark mb-0" href="{{url('admin/category/create')}}"><i class="fas fa-plus" aria-hidden="true"></i>&nbsp;&nbsp;Thêm Category</a>
                 @endcan
             </div>
@@ -52,10 +52,10 @@
                                 @endif
                             </td>
                             <td class="align-middle text-center ms-auto text-end">
-                                @can('delete', $category)
+                                @can('delete-category')
                                     <a class="btn btn-link text-danger text-gradient px-3 mb-0" onclick="return confirmation(this)" href="{{url('admin/category/destroy/'. $category->id)}}" href="{{url('admin/category/destroy/'. $category->id)}}"><i class="far fa-trash-alt me-2" aria-hidden="true"></i>Delete</a>
                                 @endcan
-                                @can('update', $category)
+                                @can('edit-category')
                                     <a class="btn btn-link text-dark px-3 mb-0" href="{{url('admin/category/edit/'. $category->id)}}"><i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>Edit</a>
                                 @endcan
                             </td>

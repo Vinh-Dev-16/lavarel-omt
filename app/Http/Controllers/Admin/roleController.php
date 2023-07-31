@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Permission;
 use App\Models\Role;
 use Illuminate\Http\Request;
 use Exception;
@@ -24,7 +25,12 @@ class roleController extends Controller
 
 
     public function create(){
-        return view('admin.role.create');
+        if (auth()->user()->can('create-role')) {
+            $permissions = Permission::all();
+            return view('admin.role.create', compact('permissions'));
+        } else {
+            return abort(403);
+        }
     }
 
 
@@ -32,6 +38,7 @@ class roleController extends Controller
         if ($request->isMethod('POST')) {
             $rules = [
                'name' => 'required',
+                'slug' => 'required',
             ];
             $messages = [
                 'required' => 'Không được để trống trường này',
@@ -42,7 +49,9 @@ class roleController extends Controller
         try{
             $data = $request->all();
             unset($data['_token']);
-            Role::create($data);
+            unset($data['permission_id']);
+            $role = Role::create($data);
+            $role->permissions()->attach($request->input('permission_id'));
             if (Session::get('role-url')) {
                 return redirect(session('role-url'))->with('success', 'Đã thêm role thành công');
             }
@@ -52,9 +61,15 @@ class roleController extends Controller
     }
 
 
-    public function edit($id){
-        $role = Role::find($id);
-        return view('admin.role.edit', compact( 'role'));
+    public function edit($slug){
+        if (auth()->user()->can('edit-role')) {
+        $role = Role::where('slug', $slug)->first();
+        $permissions = Permission::all();
+        $selectedID = $role->permissions->pluck('id')->toArray();
+        return view('admin.role.edit', compact( 'role', 'permissions', 'selectedID'));
+        } else {
+            return abort(403);
+        }
     }
 
 
@@ -63,6 +78,7 @@ class roleController extends Controller
         try{
             $role = Role::find($id);
             $role->update($data);
+            $role->permissions()->sync($request->input('permission_id'));
             if (Session::get('role-url')) {
                 return redirect(session('role-url'))->with('success', 'Đã sửa role thành công');
             }
@@ -72,14 +88,20 @@ class roleController extends Controller
      }
 
      public function destroy($id) {
+         if (auth()->user()->can('delete-role')) {
         try{
-            Role::find($id)->delete();
+            $role =  Role::find($id);
+            $role->permissions()->detach();
+            $role->delete();
             if (Session::get('role-url')) {
                 return redirect(session('role-url'))->with('success', 'Đã xóa role thành công');
             }
         }catch(Exception $e){
             return back()->with('error', $e->getMessage());
         }
+         } else {
+             return abort(403);
+         }
      }
 
 }
