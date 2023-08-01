@@ -11,18 +11,16 @@ use Illuminate\Http\Request;
 class commentController extends Controller
 {
     public function store(Request $request) {
+
         if ($request->isMethod('post')) {
             $data = $request->all();
-            Comment::create($data);
-            $postID = Post::find($request->post_id)->id;
-            $name = User::find($request->user_id)->name;
-            $userID = User::find($request->user_id)->id;
-            $comments = Comment::where('post_id',$postID)->limit(6)->latest()->get();
-
+            $comments = Comment::create($data);
+            if($comments) {
+            $post = Post::find($request->post_id);
+            return view('user.design.comment' , compact('comments', 'post'));
+            }
             return response()->json([
                 'result' => $comments,
-                'name' => $name,
-                'userID' => $userID,
             ]);
         }
     }
@@ -47,21 +45,13 @@ class commentController extends Controller
             );
         }
     }
-    public function delete($id): \Illuminate\Http\JsonResponse
+    public function delete($id): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
     {
         $comment = Comment::find($id);
-        $post = Post::where('id', $comment->post_id)->first();
+        $postID = $comment->post_id;
+        $post = Post::find($postID);
         $comment->delete();
-        $postID = $post->id;
-        $comments = Comment::where('post_id',$postID)->limit(6)->latest()->get();
-        $userID = auth()->user()->id;
-        $name = auth()->user()->name;
-
-        return response()->json([
-            'result' => $comments,
-            'userID' => $userID,
-            'name' => $name,
-            'status' => 'success',
-        ]);
+        $comments = Comment::all();
+        return view('user.design.comment' , compact('comments', 'post'));
     }
 }

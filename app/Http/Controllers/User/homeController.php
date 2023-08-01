@@ -68,6 +68,8 @@ class homeController extends Controller
                 }
             }]
         ])->paginate(12);
+        $searches->appends(['key' => $key]);
+
 
         return view('user.design.search',compact('searches','key'));
     }

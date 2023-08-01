@@ -9,7 +9,7 @@ Route::prefix('/')->group(function(){
     Route::get('detail/{slug}', [homeController::class, 'detail'])->name('detail');
     Route::get('category/{slug}', [homeController::class, 'category'])->name('category');
     Route::get('tag/{tag}', [homeController::class, 'tag'])->name('tag');
-    Route::post('search', [homeController::class, 'searchPage'])->name('search');
+    Route::get('search', [homeController::class, 'searchPage'])->name('search');
     Route::get('searchAPI', [homeController::class, 'searchAPI'])->name('searchAPI');
 
     Route::prefix('comment')->group(function(){

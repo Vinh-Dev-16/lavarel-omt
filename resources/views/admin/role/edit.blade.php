@@ -39,7 +39,13 @@
                     <label for="exampleName"> Permission</label>
                     <select class="select2" name="permission_id[]" multiple="multiple"
                             style="width: 100%">
-                       c
+                        @foreach ($permissions as $permission)
+                            <option
+                                @if(in_array($permission->id, $selectedID))
+                                    selected
+                                @endif
+                                value="{{ $permission->id }}">{{ $permission->name }}</option>
+                        @endforeach
                     </select>
                     @error('category_id')
                     <div class="text-danger">{{ $message }}</div>

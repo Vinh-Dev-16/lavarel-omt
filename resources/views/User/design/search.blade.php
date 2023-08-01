@@ -9,12 +9,15 @@ Kết quả tìm kiếm cho: {{$key}}
     <div class="row my-10">
         @foreach($searches as $search)
         <div class="col-sm-3">
-            <a href="{{url('detail/' . $search->id)}}" class="link-title-content">
-                <img class="image-title" src="{{asset('storage/image/' . $search->avatarlay)}}" alt="ảnh content">
+            <a href="{{url('detail/' . $search->slug)}}" class="link-title-content">
+                <img class="image-title" src="{{asset('storage/image/' . $search->avatar)}}" alt="ảnh content">
                 <h5 class=" title-content title-content-main ">{{$search->title}}</h5>
             </a>
         </div>
         @endforeach
+    </div>
+    <div class="mb-10">
+    {{$searches->links('vendor.pagination.bootstrap-4')}}
     </div>
 @endsection
 

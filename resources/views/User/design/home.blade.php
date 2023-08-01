@@ -88,15 +88,21 @@
                 <div class="row" style="width: 97%">
                     @foreach(\App\Models\Admin\Post::where('status', 1)->get() as $post)
                         <div class="col-sm-6 my-6">
-                        <img class="object-fit-cover" src="{{asset('storage/image/' .$post->avatar)}}" alt="Ảnh" />
+                            <a href="{{url('detail/'. $post->slug)}}">
+                                <img class="object-fit-cover" src="{{asset('storage/image/' .$post->avatar)}}" alt="Ảnh" />
+                            </a>
                         </div>
                         <div class="col-sm-6 my-6">
+
                             @foreach($post->categories as $category)
-                                <strong>{{$category->name}}</strong>
+                                <a href="{{url('category'. $category->slug)}}" class="my-2 text-dark">{{$category->name}}</a>
                             @endforeach
-                            <h4>{{$post->title}}</h4>
-                            <p>{{$post->short_description}}</p>
+                            <a href="{{url('detail/'. $post->slug)}}">
+                                <h4>{{$post->title}}</h4>
+                                <p class="my-2" style="font-size: 13px; color:black;">{{$post->short_description}}</p>
+                            </a>
                         </div>
+                        </a>
                         <hr>
                     @endforeach
                 </div>
@@ -104,13 +110,31 @@
             </div>
             <div class="col-md-6 pe-7">
                 @foreach(\App\Models\Admin\Category::get() as $category)
-                <div class="right-bottom-main my-6">
-                    <div class="heading-right-bottom-main">
-                        <a href="{{url('category/' . $category->slug)}}">{{$category->name}}</a>
+                    <div class="right-bottom-main my-6">
+                        <div class="heading-right-bottom-main">
+                            <a href="{{url('category/' . $category->slug)}}">{{$category->name}}</a>
+                        </div>
+                        <div class="row">
+                            @foreach($category->posts->take(2)->sortByDesc('created_at') as $post)
+                                <div class="col-md-5">
+                                    <a href="{{url('detail/'. $post->slug)}}">
+                                        <img src="{{asset('storage/image/' .$post->avatar )}}" alt="anh">
+                                    </a>
+                                </div>
+                                <div class="col-md-7">
+                                    <a href="{{url('detail/'. $post->slug)}}">
+                                        <div>
+                                            <h4>{{$post->title}}</h4>
+                                            <p class="my-2" style="font-size: 13px; color:black;">{{$post->short_description}}</p>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="content-category-right"></div>
+                            @endforeach
+                        </div>
                     </div>
-                    <div class="rơw"
-                </div>
                 @endforeach
+                <img class="my-2 ms-11 position-sticky overflow-hidden top-10 hide-mobile" style="object-fit: cover; " src="{{asset('image/banner-1.gif')}}" alt="banner">
             </div>
         </div>
     </div>

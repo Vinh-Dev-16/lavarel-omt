@@ -16,6 +16,7 @@ class Comment extends Model
         'content'=> 'content',
         'user_id' => 'user_id',
         'post_id' => 'post_id',
+        'parent_id' => 'parent_id',
     ];
 
     public function post(): \Illuminate\Database\Eloquent\Relations\BelongsTo

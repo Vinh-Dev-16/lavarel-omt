@@ -121,9 +121,6 @@
                                         <li>
                                             <a href="{{url('tag/ Tech Kiệm')}}" class="btn-middle-header" type="button" class="btn">Tech Kiệm</a>
                                         </li>
-                                        <li>
-                                            <a class="btn-middle-header" type="button" class="btn">Mua Bán</a>
-                                        </li>
                                     </ul>
                                 </div>
                             </div>
@@ -155,7 +152,7 @@
                                     </div>
                                     @endif
                                         <div class="search-bar-header position-relative top-4">
-                                            <form method="POST" action="{{url('search')}}">
+                                            <form method="GET" action="{{url('search')}}">
                                                 <svg id="icon-search-bar" class="position-absolute top-5 end-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="28" height="28"><path d="M18.031 16.6168L22.3137 20.8995L20.8995 22.3137L16.6168 18.031C15.0769 19.263 13.124 20 11 20C6.032 20 2 15.968 2 11C2 6.032 6.032 2 11 2C15.968 2 20 6.032 20 11C20 13.124 19.263 15.0769 18.031 16.6168ZM16.0247 15.8748C17.2475 14.6146 18 12.8956 18 11C18 7.1325 14.8675 4 11 4C7.1325 4 4 7.1325 4 11C4 14.8675 7.1325 18 11 18C12.8956 18 14.6146 17.2475 15.8748 16.0247L16.0247 15.8748Z" fill="rgba(255,255,255,1)"></path></svg>
                                                 <input id="search-text-bar" class="top-5 end-8 position-absolute" type="search" name="search" placeholder="Tìm kiếm ở đây...">
                                             </form>
@@ -203,9 +200,9 @@
 
                     @section('content')
                     @show
-                     <div class="hide-mobile">
+
                             @yield('banner')
-                     </div>
+
             <div class="row">
                 <div class="col-sm-12">
                     @yield('bottom-main')
