@@ -96,6 +96,7 @@
                                                     @if(count((array)$post->comments))
                                                         @foreach($post->comments as $comment)
                                                             @if($comment->parent_id == 0)
+                                                                <div id="hide-comment">
                                                                 <div class="mt-3">
                                                                     <div>
                                                                         <h6 class="fw-bold mb-1">{{$comment->user->name}}</h6>
@@ -164,6 +165,7 @@
                                                                     </div>
                                                                 </div>
                                                                 <hr>
+                                                                </div>
                                                                 <div class="ms-5" id="commentShow">
                                                                     @if(count((array)$comment->replies) > 0)
                                                                         @include('user.design.comment',['comments'=> $comment->replies, 'commentID'=> $comment->id])
@@ -304,6 +306,7 @@
                         createSuccessToast('Đã bình luận')
                         $('#commentShow').html(response);
                         $('.content').val('');
+                        $('#hide-comment').val('');
                         $('.create-comment').slideUp();
                     }
                 });

@@ -1,4 +1,4 @@
-
+@if(count((array)$comments) > 0)
     @foreach ($comments as $comment)
             <div class="comment">
                 <div class="mt-3">
@@ -49,5 +49,6 @@
                 </div>
             @endif
 
-    @endforeach
 
+    @endforeach
+@endif

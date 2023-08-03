@@ -17,15 +17,7 @@ class commentController extends Controller
             $comment = Comment::create($data);
             if($comment) {
                 $post = Post::find($request->post_id);
-                $comments = Comment::where('post_id', $request->post_id)->where('parent_id', 0)->get();
-//                foreach ($commentsParent as $comment) {
-//                    if (count((array)$comment->replies) > 0) {
-//                        foreach ($comment->replies as $reply) {
-//                            $comments = $reply->comments;
-//                            return view('user.design.comment', compact('comments', 'post'));
-//                        }
-//                    }
-//                }
+                $comments = Comment::where('post_id', $request->post_id)->where('parent_id' , 0)->get();
                 return view('user.design.comment', compact('comments', 'post'));
             }
             return response()->json([

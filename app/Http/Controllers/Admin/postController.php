@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Events\postEvent;
 use App\Http\Controllers\Controller;
 use App\Models\Admin\Category;
 use App\Models\Admin\Post;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Gate;
@@ -76,6 +78,8 @@ class postController extends Controller
                 'avatar' => $image,
             ]);
             $post->categories()->attach($request->input('category_id'));
+            $username = User::find($request->input('username'));
+            event(new postEvent( $username ));
             if (Session::get('post_url')) {
                 return redirect(session('post_url'))->with('success', 'Đã thêm post thành công');
             } else {

@@ -446,6 +446,17 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
+        {{--        event--}}
+        //     Pusher.logToConsole = true;
+        // var pusher = new Pusher('0c39d13ebf28b8d3f138', {
+        //     cluster: 'ap1'
+        // });
+        //
+        // var  channel = pusher.subscribe('post-event');
+        // channel.bind('my-handle', function(data) {
+        //     createSuccessToast(data.name + ' đã đặt hàng');
+        // });
+
         document.addEventListener("DOMContentLoaded", function() {
             document.querySelectorAll('.sidebar .nav-link').forEach(function(element) {
 
