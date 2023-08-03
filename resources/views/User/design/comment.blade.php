@@ -22,7 +22,6 @@
                                                                                         Xóa Comment
                                                                                     </span>
                         @endcan
-
                     </div>
                 </div>
                 <div class="card-footer py-5 border-0 mt-6 mb-16 create-comment form-reply-{{$comment->id}}" style="background-color: #f8f9fa;">
