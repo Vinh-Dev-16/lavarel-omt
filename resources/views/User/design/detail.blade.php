@@ -139,11 +139,14 @@
                                                                                    class="parent-id-{{$comment->id}}"
                                                                                    data-id="{{$comment->id}}"
                                                                                    type="text" value="{{$comment->id}}">
-                                                                            <input hidden="hidden"
-                                                                                   class="user-id-{{$comment->id}}"
-                                                                                   data-id="{{$comment->id}}"
-                                                                                   type="text"
-                                                                                   value="{{\Illuminate\Support\Facades\Auth::user()->id}}">
+                                                                            @if(\Illuminate\Support\Facades\Auth::check())
+                                                                                <input hidden="hidden"
+                                                                                       class="user-id-{{$comment->id}}"
+                                                                                       data-id="{{$comment->id}}"
+                                                                                       type="text"
+                                                                                       value="{{\Illuminate\Support\Facades\Auth::user()->id}}">
+                                                                            @endif
+
                                                                             <textarea
                                                                                 class="form-control textAreaExample-{{$comment->id}}"
                                                                                 data-id="{{$comment->id}}" rows="4"
